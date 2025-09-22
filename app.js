@@ -10,7 +10,7 @@
   // 1) MindAR con renderer transparente (sin fondo negro)
   const mind = new MINDAR.IMAGE.MindARThree({
     container,
-    imageTargetSrc: "./targets/my-card.mind",
+    imageTargetSrc: "./targets/my-bcard.mind",
     // Esto hace que el WebGL sea transparente y se vea la cámara
     rendererParameters: { alpha: true, antialias: true },
   });
