@@ -53,7 +53,7 @@
         <video id="miVideo" src="./assets/demo.mp4" preload="auto" loop="true" playsinline webkit-playsinline autoplay muted crossorigin="anonymous"></video>
         <!-- Iconos de redes sociales -->
         <img id="iconLinkedin" src="./assets/icon-linkedin.png" />
-        <img id="iconGlobe" src="./assets/icon-globe.png" />
+        <img id="iconGlobe" src="./assets/portfolioIcon.jpg" />
         <img id="iconEmail" src="./assets/icon-mail.png" />
       </a-assets>
 
@@ -62,16 +62,16 @@
         <!-- Video plano -->
         <a-plane id="videoPlane"
                 src="#miVideo"
-                position="0 1 0"
+                position="0 0.4 0"
                 height="0.55"
                 width="1"
                 material="shader: flat; transparent: true">
         </a-plane>
 
         <!-- Botones centrados de redes sociales -->
-        <a-image id="linkedinBtn" class="clickable" src="#iconoLinkedin" position="-0.35 -0.4 0" height="0.15" width="0.15"></a-image>
-        <a-image id="portfolioBtn" class="clickable" src="#iconGlobe" position="0 -0.4 0" height="0.15" width="0.15"></a-image>
-        <a-image id="emailBtn" class="clickable" src="#iconEmail" position="0.35 -0.4 0" height="0.15" width="0.15"></a-image>
+        <a-image id="linkedinBtn" class="clickable" src="#iconLinkedin" position="-0.35 -0.5 0" height="0.15" width="0.15"></a-image>
+        <a-image id="portfolioBtn" class="clickable" src="#iconGlobe" position="0 -0.5 0" height="0.15" width="0.15"></a-image>
+        <a-image id="emailBtn" class="clickable" src="#iconEmail" position="0.35 -0.5 0" height="0.15" width="0.15"></a-image>
       </a-entity>
     </a-scene>
 
