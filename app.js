@@ -93,12 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- LÓGICA DE REDES SOCIALES ---
     // Objeto que asocia el ID de cada ícono con su URL correspondiente.
     const links = {
-      facebookBtn: 'https://mariazapata.vercel.app/',
-      youtubeBtn: 'https://mariazapata.vercel.app/',
-      blogBtn: 'https://mariazapata.vercel.app/',
-      instagramBtn: 'https://mariazapata.vercel.app/',
-      whatsappBtn: 'https://mariazapata.vercel.app/',
-      // ... otros enlaces de redes sociales.
+      linkedinBtn: 'https://www.linkedin.com/in/mariazapatam/',
+      portfolioBtn: 'https://mariazapata.vercel.app/',
+      emailBtn: 'mailto:mariazapatamontano@gmail.com?subject=AR%20App&body=Hi,%20me%20interesa%20saber%20más%20sobre%20la%20tarjeta%20de%20presentación%20en%20realidad%20aumentada.'
     };
     
     // Este bucle recorre el objeto 'links' y asigna un evento de clic a cada ícono.
