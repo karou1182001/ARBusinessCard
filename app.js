@@ -1,108 +1,99 @@
-// Este es el punto de partida. Se asegura de que el script no se ejecute hasta que todo el HTML se haya cargado y esté listo.
 document.addEventListener('DOMContentLoaded', () => {
-  
-  // Selecciona el componente principal de A-Frame, la escena.
   const sceneEl = document.querySelector('a-scene');
   
-  // Espera a que A-Frame haya cargado completamente la escena y todos sus componentes internos.
   sceneEl.addEventListener('loaded', () => {
-
-    // --- SELECCIÓN DE ELEMENTOS ---
-    // Se crean constantes para tener acceso rápido y fácil a los elementos clave del HTML.
     const target = document.querySelector('#target'); // La entidad que representa el marcador.
-    const video = document.querySelector('#miVideo'); // El elemento <video>.
-    const playPauseBtn = document.querySelector('#playPauseBtn'); // Botón de Pausar/Reproducir.
-    const muteUnmuteBtn = document.querySelector('#muteUnmuteBtn'); // Botón de Silenciar/Activar Audio.
-    const imagenSuperiorEl = document.querySelector('#imagenSuperiorEl'); // La imagen 3D que se desvanece.
-    const scanningOverlay = document.getElementById('ui-custom-tracking-overlay'); // La pantalla de escaneo.
-
-    // --- VARIABLES DE ESTADO ---
-    let hideImageTimeout; // Guardará el temporizador para la animación de la imagen. Permite cancelarlo si es necesario.
-    let isTargetEverFound = false; // Variable CRÍTICA: Actúa como un interruptor.
+    const video = document.querySelector('#miVideo');
+    const videoPlane = document.querySelector('#videoPlane');
+    const playPauseBtn = document.querySelector('#playPauseBtn');
+    const muteUnmuteBtn = document.querySelector('#muteUnmuteBtn');
+    const imagenSuperiorEl = document.querySelector('#imagenSuperiorEl');
+    const scanningOverlay = document.getElementById('ui-custom-tracking-overlay');
+    
+    let hideImageTimeout;
+    let isTargetEverFound = false;
 
     // --- CONTROL DEL VIDEO ---
     playPauseBtn.addEventListener('click', () => {
-      // Si el marcador nunca ha sido encontrado, la función se detiene aquí.
       if (!isTargetEverFound) return;
-      
-      // Si el video está pausado, lo reproduce.
       if (video.paused) {
         video.play();
         playPauseBtn.textContent = 'Pausar';
       } else {
-        video.pause(); // Si se está reproduciendo, lo pausa.
-        playPauseBtn.textContent = 'Reproducir'; // Actualiza el texto del botón.
+        video.pause();
+        playPauseBtn.textContent = 'Reproducir';
       }
     });
 
-    // Lógica para el botón de Silenciar/Activar Sonido.
     muteUnmuteBtn.addEventListener('click', () => {
-      if (!isTargetEverFound) return; // Misma barrera de seguridad.
-      
-      // Invierte el estado de 'muted' (silenciar/activar sonido).
+      if (!isTargetEverFound) return;
       video.muted = !video.muted;
-      
-      // Actualiza el texto del botón según el nuevo estado de 'muted'.
       muteUnmuteBtn.textContent = video.muted ? 'Activar Sonido' : 'Silenciar';
     });
 
     // --- EVENTOS DE MINDAR ---
-    // Se ejecuta cuando la cámara PIERDE de vista el marcador.
     target.addEventListener("targetLost", () => {
-      video.pause(); // Pausa el video inmediatamente.
-      playPauseBtn.textContent = 'Reproducir'; // Actualiza el botón.
-      scanningOverlay.classList.remove('hidden'); // Muestra la pantalla de escaneo.
-      
-      clearTimeout(hideImageTimeout); // Cancela cualquier temporizador pendiente para desvanecer la imagen.
-      
-      // Restablece la imagen superior a su estado inicial.
+      video.pause();
+      playPauseBtn.textContent = 'Reproducir';
+      scanningOverlay.classList.remove('hidden');
+      clearTimeout(hideImageTimeout);
       imagenSuperiorEl.setAttribute('visible', true);
       imagenSuperiorEl.setAttribute('material', 'opacity', 1);
     });
 
-    // Se ejecuta cuando la cámara ENCUENTRA el marcador.
     target.addEventListener("targetFound", () => {
-      // Cambia la variable de estado a 'true'.
       isTargetEverFound = true;
-      
       if (video.paused) {
-        video.play(); // Si el video estaba pausado, lo reproduce.
-        playPauseBtn.textContent = 'Pausar'; // Actualiza el texto del botón.
+        video.play();
+        playPauseBtn.textContent = 'Pausar';
       }
-      
-      scanningOverlay.classList.add('hidden'); // Oculta la pantalla de escaneo.
-      
-      // Restablece la opacidad de la imagen superior.
+      scanningOverlay.classList.add('hidden');
       imagenSuperiorEl.setAttribute('material', 'opacity', 1);
-      imagenSuperiorEl.removeAttribute('animation'); // Elimina cualquier animación anterior.
-      
-      clearTimeout(hideImageTimeout); // Limpia cualquier temporizador pendiente.
+      imagenSuperiorEl.removeAttribute('animation');
+      clearTimeout(hideImageTimeout);
 
-      // Inicia un nuevo temporizador para desvanecer la imagen después de 5 segundos.
       hideImageTimeout = setTimeout(() => {
         imagenSuperiorEl.setAttribute('animation', {
-          property: 'material.opacity', // La propiedad a animar (la opacidad del material).
-          from: 1, // Valor inicial (totalmente opaco).
-          to: 0, // Valor final (totalmente transparente).
-          dur: 1500, // Duración de la animación (1.5 segundos).
-          easing: 'easeInQuad' // Tipo de aceleración para el desvanecimiento suave.
+          property: 'material.opacity',
+          from: 1,
+          to: 0,
+          dur: 1500,
+          easing: 'easeInQuad'
         });
-      }, 5000); // La animación se ejecuta después de 5 segundos.
+      }, 5000);
     });
 
+    // --- Suavizado de la posición del video y elementos ---
+    let targetPosition = { x: 0, y: 0, z: 0 }; // Posición suavizada
+    let smoothingFactor = 0.1; // Entre 0 (sin suavizado) y 1 (suavizado completo)
+
+    function smoothPosition() {
+      let currentPosition = target.object3D.position;
+      
+      // Interpolación de las posiciones
+      targetPosition.x += (currentPosition.x - targetPosition.x) * smoothingFactor;
+      targetPosition.y += (currentPosition.y - targetPosition.y) * smoothingFactor;
+      targetPosition.z += (currentPosition.z - targetPosition.z) * smoothingFactor;
+
+      // Actualiza la posición suavizada de los objetos
+      videoPlane.setAttribute('position', targetPosition);
+      // Puedes aplicar el suavizado a los botones o a otros objetos de manera similar.
+    }
+
+    // Llamar a la función de suavizado cada frame
+    setInterval(smoothPosition, 16); // Aproximadamente 60 FPS
+
     // --- LÓGICA DE REDES SOCIALES ---
-    // Objeto que asocia el ID de cada ícono con su URL correspondiente.
     const links = {
       linkedinBtn: 'https://www.linkedin.com/in/mariazapatam/',
       portfolioBtn: 'https://mariazapata.vercel.app/',
       emailBtn: 'mailto:mariazapatamontano@gmail.com?subject=AR%20App&body=Hi,%20me%20interesa%20saber%20más%20sobre%20la%20tarjeta%20de%20presentación%20en%20realidad%20aumentada.'
     };
     
-    // Este bucle recorre el objeto 'links' y asigna un evento de clic a cada ícono.
     for (const [id, url] of Object.entries(links)) {
-      const button = document.querySelector(`#${id}`); // Selecciona el ícono por su ID.
-      button.addEventListener('click', () => { // Añade el evento de clic.
-        window.open(url, '_blank'); // Abre el enlace en una nueva pestaña.
+      const button = document.querySelector(`#${id}`);
+      button.addEventListener('click', () => {
+        window.open(url, '_blank');
       });
     }
   });
