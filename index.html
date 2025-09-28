@@ -1,15 +1,68 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mi Tarjeta de Presentación AR</title>
-  <script src="https://unpkg.com/three@0.150.0/build/three.min.js"></script>
-  <script src="https://unpkg.com/mind-ar@1.1.5/dist/mindar-image-three.prod.js"></script>
+  <!-- Define la codificación de caracteres a UTF-8 para tildes y "ñ". -->
+  <meta charset="UTF-8">
+
+  <!-- Configura el viewport para dispositivos móviles -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Título de la página -->
+  <title>AR Business Card</title>
+
+  <!-- Librería A-Frame para escenas 3D y VR/AR -->
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+  <!-- Complemento MindAR para reconocimiento de imágenes en A-Frame -->
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+  <!-- Hoja de estilos externa -->
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-  <div id="ar"></div>
-  <div id="status" class="status">Cargando…</div>
+  <!-- Contenedor principal -->
+  <div id="ar-wrapper">
+
+    <!-- Encabezado fijo -->
+    <header class="page-header">
+      <h1>Tarjeta de Presentación en Realidad Aumentada</h1>
+      <p>AR Business Card</p>
+    </header>
+
+    <!-- Controles de video (si usas video) -->
+    <div class="controls-container">
+      <button id="playPauseBtn" class="control-button">Pausar</button>
+      <button id="muteUnmuteBtn" class="control-button">Activar Audio</button>
+    </div>
+
+    <!-- Overlay de escaneo / UI de tracking -->
+    <div id="ui-custom-tracking-overlay" class="ui-custom-tracking-overlay">
+      <div class="ui-tracking-square">
+        <!-- Imagen de referencia -->
+        <img src="./assets/bienvenida.jpg" alt="Marker Target" class="scanning-image">
+
+        <!-- Mensaje de escaneo -->
+        <div class="scanning-message">Escanea tu marcador</div>
+
+        <!-- Elementos visuales para animación de escaneo -->
+        <div class="ui-scan-line"></div>
+        <span></span>
+      </div>
+    </div>
+
+    <!-- Insertar la escena AR desde un archivo externo -->
+    <object type="text/html" data="a-scene.html" width="100%" height="500px"></object>
+
+    <!-- Pie de página fijo -->
+    <footer class="page-footer">
+      <a href="https://blog.realidad-aumentada.com.co" target="_blank" rel="noopener noreferrer">Ver Tutorial</a>
+      <a href="https://www.youtube.com/carlosreinamcr" target="_blank" rel="noopener noreferrer">Canal de YouTube</a>
+    </footer>
+
+  </div> <!-- Cierre del #ar-wrapper -->
+
+  <!-- Llamada al archivo app.js al final del body para que cargue después de la estructura HTML -->
   <script src="app.js"></script>
 </body>
 </html>

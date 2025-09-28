@@ -1,0 +1,54 @@
+<a-scene mindar-image="imageTargetSrc: ./targets/my-bcard.mind" uiScanning="#ui-custom-tracking-overlay;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights: true">
+  <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="near: 10; far: 10000; objects: .clickable"></a-camera>
+
+  <a-assets>
+    <video id="miVideo" src="./assets/demo.mp4" preload="auto" loop="true" playsinline webkit-playsinline autoplay muted crossorigin="anonymous"></video>
+    <img id="imagenSuperior" src="./assets/icon-globe.png" />
+    <img id="iconoFacebook" src="./assets/icon-linkedin.png" />
+    <img id="iconoYoutube" src="./assets/icon-linkedin.png" />
+    <img id="iconoLogo" src="./assets/icon-linkedin.png" />
+    <img id="iconoInstagram" src="./assets/icon-mail.png" />
+    <img id="iconoWhatsapp" src="./assets/icon-globe.png" />
+  </a-assets>
+
+  <a-entity id="target" mindar-image-target="targetIndex: 0">
+      <a-plane id="videoPlane"
+              src="#mivideo"
+              position="0 0 0"
+              height="0.55"
+              width="1"
+              material="shader: flat; transparent: true">
+      </a-plane>
+
+      <a-image id="imagenSuperiorEl"
+              src="#imagenSuperior"
+              position="0 0.5 0"
+              height="0.4"
+              width="1">
+      </a-image>
+
+      <a-image id="facebookBtn"
+              class="clickable"
+              src="#iconoFacebook"
+              position="-0.4 -0.4 0"
+              height="0.15"
+              width="0.15">
+      </a-image>
+
+      <a-image id="youtubeBtn" class="clickable" src="#iconoYoutube" position="-0.2 -0.4 0" height="0.15" width="0.15"></a-image>
+
+      <a-image id="blogBtn" class="clickable" src="#iconoblog" position="0 -0.4 0" height="0.15" width="0.15"></a-image>
+
+      <a-image id="instagramBtn" class="clickable" src="#iconoInstagram" position="0.2 -0.4 0" height="0.15" width="0.15"></a-image>
+
+      <a-image id="whatsappBtn" class="clickable" src="#iconoWhatsapp" position="0.4 -0.4 0" height="0.15" width="0.15"></a-image>
+
+
+
+    
+    <!-- Botones interactivos (redes sociales) -->
+    <a-image id="facebookBtn" class="clickable" src="#iconoFacebook" width="0.5" height="0.5" position="-0.8 -0.5 0"></a-image>
+    <a-image id="twitterBtn" class="clickable" src="#iconoTwitter" width="0.5" height="0.5" position="0 0.5 0"></a-image>
+    <!-- Agregar otros botones según sea necesario -->
+  </a-entity>
+</a-scene>

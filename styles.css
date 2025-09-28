@@ -1,41 +1,91 @@
-/* === styles.css === */
-html, body {
-  margin: 0;
-  height: 100%;
-  /* Fondo transparente para que se vea la cámara de MindAR */
-  background: transparent;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+body {
+margin: 0; /* Elimina los márgenes predeterminados del navegador. */
+/* overflow: hidden; -> Comentado para que AdSense pueda añadir barras de scroll si es necesario. */
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Usa fuentes modernas y comunes en la mayoría de dispositivos. */
+color: #ffffff; /* Color del texto por defecto: blanco. */
+background-color: #000; /* Fondo negro para que no haya un destello blanco al cargar. */
+}
+ 
+/* Estilo para el contenedor que envuelve toda la experiencia AR. */
+#ar-wrapper {
+position: relative; /* Base para posicionar elementos internos como los botones. */
+width: 100%; /* Ocupa todo el ancho disponible. */
+height: 100vh; /* Ocupa el 100% de la altura de la ventana del navegador. */
+overflow: hidden; /* Evita que la escena 3D se desborde y cree barras de scroll no deseadas. */
 }
 
-/* El contenedor del canvas AR ocupa toda la pantalla */
-#ar {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
-  background: transparent; /* importante */
+.page-header, .page-footer {
+position: fixed; /* Los mantiene fijos en la pantalla aunque el contenido se mueva. */
+left: 0; /* Los alinea al borde izquierdo. */
+width: 100%; /* Hace que ocupen todo el ancho. */
+text-align: center; /* Centra el texto en su interior. */
+z-index: 11; /* Un número alto para asegurar que estén por encima de todo lo demás. */
+background-color: rgba(0, 0, 0, 0.6); /* Fondo negro semitransparente. */
+backdrop-filter: blur(8px); /* ¡Efecto clave! Crea un desenfoque tipo "vidrio esmerilado" del contenido que está detrás. */
+-webkit-backdrop-filter: blur(8px); /* Versión para navegadores como Safari. */
+padding: 10px 0; /* Espaciado interno (10px arriba/abajo, 0px a los lados). */
+box-sizing: border-box; /* Asegura que el padding no aumente el ancho total del elemento. */
+}
+ 
+/* Estilos específicos para el encabezado. */
+.page-header {
+top: 0; /* Lo pega a la parte superior de la pantalla. */
+border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Línea divisoria sutil en la parte inferior. */
+}
+ 
+/* Estilo del título principal (H1). */
+.page-header h1 {
+margin: 0; /* Elimina márgenes. */
+/* Esta es una fuente responsive: su tamaño será el 3% del ancho de la ventana (3vw), pero nunca más pequeño que 1.2rem ni más grande que 1.5rem. */
+font-size: clamp(1.2rem, 3vw, 1.5rem);
+font-weight: 600; /* Texto en seminegrita. */
+color: #ffffff; /* Color de texto blanco. */
+text-shadow: 0 0 8px rgba(0, 136, 255, 0.7); /* Sombra de texto que crea un efecto de brillo azulado. */
+}
+ 
+/* Estilos específicos para el pie de página. */
+.page-footer {
+bottom: 0; /* Lo pega a la parte inferior de la pantalla. */
+border-top: 1px solid rgba(255, 255, 255, 0.1); /* Línea divisoria sutil en la parte superior. */
+}
+ 
+/* Estilos para los enlaces (<a>) del pie de página. */
+.page-footer a {
+color: #5bcaff; /* Color azul claro. */
+text-decoration: none; /* Quita el subrayado. */
+margin: 0 15px; /* Espaciado entre los enlaces. */
+transition: color 0.3s ease; /* Transición suave del color al pasar el mouse. */
+}
+ 
+.page-footer a:hover {
+color: #ffffff; /* Cambia el color a blanco al pasar el mouse. */
+text-decoration: underline; /* Añade un subrayado. */
 }
 
-/* Etiqueta de estado (puedes ocultarla si quieres) */
-.status {
-  position: fixed;
-  right: 12px;
-  top: 12px;
-  z-index: 10;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: #111;
-  color: #fff;
-  font-size: 13px;
-  opacity: .85;
+
+/*Botones pausar y silenciar*/
+.controls-container {
+position: absolute; /* Posicionado relativo a su padre (#ar-wrapper). */
+top: 85px; /* Lo baja 85px desde la parte superior para no chocar con el header. */
+left: 50%; /* Lo mueve al 50% del ancho de su padre. */
+transform: translateX(-50%); /* Lo desplaza hacia la izquierda el 50% de su propio ancho para centrarlo perfectamente. */
+z-index: 10; /* Se asegura de que esté por encima de la escena AR pero debajo del header/footer. */
+display: flex; /* Coloca los botones uno al lado del otro. */
+gap: 10px; /* Crea un espacio de 10px entre los botones. */
+}
+ 
+.control-button {
+padding: 10px 15px; /* Espaciado interno del botón. */
+font-size: 16px; /* Tamaño del texto. */
+background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente. */
+border: none; /* Sin borde. */
+border-radius: 8px; /* Bordes redondeados. */
+cursor: pointer; /* Cambia el cursor a una mano para indicar que es clickeable. */
+backdrop-filter: blur(5px); /* También tiene el efecto de desenfoque. */
+transition: background-color 0.3s ease; /* Transición suave del color de fondo. */
+}
+ 
+.control-button:hover {
+background-color: rgba(0, 0, 0, 0.8); /* Oscurece el botón al pasar el mouse. */
 }
 
-.badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 8px;
-  background: #222;
-  color: #ddd;
-  margin-left: 6px;
-  font-size: 12px;
-}

@@ -1,92 +1,112 @@
-(async () => {
-  const status = document.getElementById("status");
-  const container = document.getElementById("ar");
+// Este es el punto de partida. Se asegura de que el script no se ejecute hasta que todo el HTML se haya cargado y esté listo.
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // Selecciona el componente principal de A-Frame, la escena.
+  const sceneEl = document.querySelector('a-scene');
+  
+  // Espera a que A-Frame haya cargado completamente la escena y todos sus componentes internos.
+  sceneEl.addEventListener('loaded', () => {
 
-  // Inicialización de MindAR
-  const mind = new MINDAR.IMAGE.MindARThree({
-    container,
-    imageTargetSrc: "./targets/my-bcard.mind", // Asegúrate de que el archivo esté en el lugar adecuado
-    rendererParameters: { alpha: true, antialias: true },
+    // --- SELECCIÓN DE ELEMENTOS ---
+    // Se crean constantes para tener acceso rápido y fácil a los elementos clave del HTML.
+    const target = document.querySelector('#target'); // La entidad que representa el marcador.
+    const video = document.querySelector('#miVideo'); // El elemento <video>.
+    const playPauseBtn = document.querySelector('#playPauseBtn'); // Botón de Pausar/Reproducir.
+    const muteUnmuteBtn = document.querySelector('#muteUnmuteBtn'); // Botón de Silenciar/Activar Audio.
+    const imagenSuperiorEl = document.querySelector('#imagenSuperiorEl'); // La imagen 3D que se desvanece.
+    const scanningOverlay = document.getElementById('ui-custom-tracking-overlay'); // La pantalla de escaneo.
+
+    // --- VARIABLES DE ESTADO ---
+    let hideImageTimeout; // Guardará el temporizador para la animación de la imagen. Permite cancelarlo si es necesario.
+    let isTargetEverFound = false; // Variable CRÍTICA: Actúa como un interruptor.
+
+    // --- CONTROL DEL VIDEO ---
+    playPauseBtn.addEventListener('click', () => {
+      // Si el marcador nunca ha sido encontrado, la función se detiene aquí.
+      if (!isTargetEverFound) return;
+      
+      // Si el video está pausado, lo reproduce.
+      if (video.paused) {
+        video.play();
+        playPauseBtn.textContent = 'Pausar';
+      } else {
+        video.pause(); // Si se está reproduciendo, lo pausa.
+        playPauseBtn.textContent = 'Reproducir'; // Actualiza el texto del botón.
+      }
+    });
+
+    // Lógica para el botón de Silenciar/Activar Sonido.
+    muteUnmuteBtn.addEventListener('click', () => {
+      if (!isTargetEverFound) return; // Misma barrera de seguridad.
+      
+      // Invierte el estado de 'muted' (silenciar/activar sonido).
+      video.muted = !video.muted;
+      
+      // Actualiza el texto del botón según el nuevo estado de 'muted'.
+      muteUnmuteBtn.textContent = video.muted ? 'Activar Sonido' : 'Silenciar';
+    });
+
+    // --- EVENTOS DE MINDAR ---
+    // Se ejecuta cuando la cámara PIERDE de vista el marcador.
+    target.addEventListener("targetLost", () => {
+      video.pause(); // Pausa el video inmediatamente.
+      playPauseBtn.textContent = 'Reproducir'; // Actualiza el botón.
+      scanningOverlay.classList.remove('hidden'); // Muestra la pantalla de escaneo.
+      
+      clearTimeout(hideImageTimeout); // Cancela cualquier temporizador pendiente para desvanecer la imagen.
+      
+      // Restablece la imagen superior a su estado inicial.
+      imagenSuperiorEl.setAttribute('visible', true);
+      imagenSuperiorEl.setAttribute('material', 'opacity', 1);
+    });
+
+    // Se ejecuta cuando la cámara ENCUENTRA el marcador.
+    target.addEventListener("targetFound", () => {
+      // Cambia la variable de estado a 'true'.
+      isTargetEverFound = true;
+      
+      if (video.paused) {
+        video.play(); // Si el video estaba pausado, lo reproduce.
+        playPauseBtn.textContent = 'Pausar'; // Actualiza el texto del botón.
+      }
+      
+      scanningOverlay.classList.add('hidden'); // Oculta la pantalla de escaneo.
+      
+      // Restablece la opacidad de la imagen superior.
+      imagenSuperiorEl.setAttribute('material', 'opacity', 1);
+      imagenSuperiorEl.removeAttribute('animation'); // Elimina cualquier animación anterior.
+      
+      clearTimeout(hideImageTimeout); // Limpia cualquier temporizador pendiente.
+
+      // Inicia un nuevo temporizador para desvanecer la imagen después de 5 segundos.
+      hideImageTimeout = setTimeout(() => {
+        imagenSuperiorEl.setAttribute('animation', {
+          property: 'material.opacity', // La propiedad a animar (la opacidad del material).
+          from: 1, // Valor inicial (totalmente opaco).
+          to: 0, // Valor final (totalmente transparente).
+          dur: 1500, // Duración de la animación (1.5 segundos).
+          easing: 'easeInQuad' // Tipo de aceleración para el desvanecimiento suave.
+        });
+      }, 5000); // La animación se ejecuta después de 5 segundos.
+    });
+
+    // --- LÓGICA DE REDES SOCIALES ---
+    // Objeto que asocia el ID de cada ícono con su URL correspondiente.
+    const links = {
+      facebookBtn: 'https://mariazapata.vercel.app/',
+      youtubeBtn: 'https://mariazapata.vercel.app/',
+      blogBtn: 'https://mariazapata.vercel.app/',
+      instagramBtn: 'https://mariazapata.vercel.app/',
+      whatsappBtn: 'https://mariazapata.vercel.app/',
+      // ... otros enlaces de redes sociales.
+    };
+    
+    // Este bucle recorre el objeto 'links' y asigna un evento de clic a cada ícono.
+    for (const [id, url] of Object.entries(links)) {
+      const button = document.querySelector(`#${id}`); // Selecciona el ícono por su ID.
+      button.addEventListener('click', () => { // Añade el evento de clic.
+        window.open(url, '_blank'); // Abre el enlace en una nueva pestaña.
+      });
+    }
   });
-
-  const { renderer, scene, camera } = mind;
-  const anchor = mind.addAnchor(0);
-
-  // Crear un grupo para los íconos
-  const cardGroup = new THREE.Group();
-  anchor.group.add(cardGroup);
-
-  // Cargar los íconos de las redes sociales
-  const loader = new THREE.TextureLoader();
-  const iconLinkedIn = loader.load("./assets/icon-linkedin.png");
-  const iconGlobe = loader.load("./assets/icon-globe.png");
-  const iconMail = loader.load("./assets/icon-mail.png");
-
-  const matLI = new THREE.MeshBasicMaterial({ map: iconLinkedIn, transparent: true });
-  const matWWW = new THREE.MeshBasicMaterial({ map: iconGlobe, transparent: true });
-  const matMail = new THREE.MeshBasicMaterial({ map: iconMail, transparent: true });
-
-  // Tamaño y geometría de los íconos
-  const BTN_SIZE = 0.18;
-  const btnGeo = new THREE.PlaneGeometry(BTN_SIZE, BTN_SIZE);
-
-  const btnLI = new THREE.Mesh(btnGeo, matLI);
-  const btnWWW = new THREE.Mesh(btnGeo, matWWW);
-  const btnMAIL = new THREE.Mesh(btnGeo, matMail);
-
-  // Distribución de los íconos en fila
-  const ROW_Y = -0.35;
-  const SPACING = BTN_SIZE * 1.4;
-  btnLI.position.set(-SPACING, ROW_Y, 0);
-  btnWWW.position.set(0, ROW_Y, 0);
-  btnMAIL.position.set(SPACING, ROW_Y, 0);
-
-  cardGroup.add(btnLI, btnWWW, btnMAIL);
-
-  // Manejo de clics
-  const raycaster = new THREE.Raycaster();
-  const pointer = new THREE.Vector2();
-  const clickables = [btnLI, btnWWW, btnMAIL];
-
-  function handleTap(ev) {
-    const touch = ev.touches ? ev.touches[0] : ev;
-    const rect = renderer.domElement.getBoundingClientRect();
-    pointer.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
-    pointer.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
-
-    raycaster.setFromCamera(pointer, camera);
-    const hits = raycaster.intersectObjects(clickables, true);
-    if (!hits.length) return;
-
-    const obj = hits[0].object;
-    if (obj === btnLI) window.open("https://www.linkedin.com/in/mariazapatam/", "_blank");
-    if (obj === btnWWW) window.open("https://mariazapata.vercel.app/", "_blank");
-    if (obj === btnMAIL) window.open("mailto:mariazapatamontano@gmail.com", "_blank");
-  }
-
-  renderer.domElement.addEventListener("click", handleTap);
-  renderer.domElement.addEventListener("touchstart", handleTap, { passive: true });
-
-  // Evento cuando se detecta el target
-  anchor.onTargetFound = () => {
-    status.textContent = "Target detectado ✅";
-  };
-
-  // Evento cuando se pierde el target
-  anchor.onTargetLost = () => {
-    status.textContent = "Apunta la cámara a tu tarjeta";
-  };
-
-  // Iniciar AR
-  try {
-    status.textContent = "Solicitando cámara…";
-    await mind.start();
-    status.innerHTML = 'Apunta la cámara a tu tarjeta <span class="badge">WebAR</span>';
-  } catch (e) {
-    status.textContent = "Error iniciando cámara. Usa HTTPS o localhost y permite el acceso.";
-    console.error(e);
-  }
-
-  // Loop de renderizado
-  renderer.setAnimationLoop(() => renderer.render(scene, camera));
-})();
+});
