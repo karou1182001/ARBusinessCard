@@ -45,7 +45,7 @@
     </div>
 
     <!-- ------------------------------------------------------------------------------------- -->
-    <a-scene mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-scene mindar-image="imageTargetSrc: ./targets/my-bcard.mind" uiScanning="#ui-custom-tracking-overlay;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights: true">
       <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="near: 10; far: 10000; objects: .clickable"></a-camera>
 
       <a-assets>
