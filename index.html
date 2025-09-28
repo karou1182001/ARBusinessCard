@@ -45,7 +45,36 @@
     </div>
 
     <!-- Insertar la escena AR desde un archivo externo -->
-    <iframe src="a-scene.html" width="100%" height="100%" style="border: none;"></iframe>
+    <a-scene mindar-image="imageTargetSrc: ./targets/my-bcard.mind" uiScanning="#ui-custom-tracking-overlay;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights: true">
+      <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="near: 10; far: 10000; objects: .clickable"></a-camera>
+
+      <a-assets>
+        <!-- Video y otros recursos -->
+        <video id="miVideo" src="./assets/demo.mp4" preload="auto" loop="true" playsinline webkit-playsinline autoplay muted crossorigin="anonymous"></video>
+        <!-- Iconos de redes sociales -->
+        <img id="iconoFacebook" src="./assets/icon-linkedin.png" />
+        <img id="iconoYoutube" src="./assets/icon-linkedin.png" />
+        <img id="iconoInstagram" src="./assets/icon-mail.png" />
+      </a-assets>
+
+      <!-- Entidad con el target AR -->
+      <a-entity id="target" mindar-image-target="targetIndex: 0">
+        <!-- Video plano -->
+        <a-plane id="videoPlane"
+                src="#miVideo"
+                position="0 0 0"
+                height="0.55"
+                width="1"
+                material="shader: flat; transparent: true">
+        </a-plane>
+
+        <!-- Botones centrados de redes sociales -->
+        <a-image id="facebookBtn" class="clickable" src="#iconoFacebook" position="-0.35 -0.4 0" height="0.15" width="0.15"></a-image>
+        <a-image id="youtubeBtn" class="clickable" src="#iconoYoutube" position="0 -0.4 0" height="0.15" width="0.15"></a-image>
+        <a-image id="instagramBtn" class="clickable" src="#iconoInstagram" position="0.35 -0.4 0" height="0.15" width="0.15"></a-image>
+      </a-entity>
+    </a-scene>
+
 
 
     <!-- Pie de página fijo -->

@@ -65,7 +65,7 @@ text-decoration: underline; /* Añade un subrayado. */
 
 .controls-container {
 position: absolute; /* Posicionado relativo a su padre (#ar-wrapper). */
-top: 85px; /* Lo baja 85px desde la parte superior para no chocar con el header. */
+top: 100px; /* Lo baja 85px desde la parte superior para no chocar con el header. */
 left: 50%; /* Lo mueve al 50% del ancho de su padre. */
 transform: translateX(-50%); /* Lo desplaza hacia la izquierda el 50% de su propio ancho para centrarlo perfectamente. */
 z-index: 10; /* Se asegura de que esté por encima de la escena AR pero debajo del header/footer. */
