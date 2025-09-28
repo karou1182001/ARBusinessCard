@@ -6,78 +6,68 @@
 
   <title>Maria's Business Card</title>
 
-  <!-- Librería A-Frame para escenas 3D y VR/AR -->
+  <!-- ==================== LIBRERÍAS ==================== -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <!-- Complemento MindAR para reconocimiento de imágenes en A-Frame -->
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <!-- Zappar para A-Frame -->
+  <script src="https://libs.zappar.com/zappar-aframe/2.0.0/zappar-aframe.js"></script>
+
+  <!-- ==================== ESTILOS ==================== -->
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-  <!-- Contenedor principal -->
+  <!-- ==================== CONTENEDOR PRINCIPAL ==================== -->
   <div id="ar-wrapper">
 
-    <!-- Encabezado fijo -->
+    <!-- ==================== ENCABEZADO FIJO ==================== -->
     <header class="page-header">
       <h1>Maria's AR business card</h1>
       <p>AR Business Card</p>
     </header>
 
-    <!-- Controles de video (si usas video) -->
+    <!-- ==================== CONTROLES DE VIDEO ==================== -->
     <div class="controls-container">
       <button id="playPauseBtn" class="control-button">Pausar</button>
       <button id="muteUnmuteBtn" class="control-button">Activar Audio</button>
     </div>
 
-    <!-- Overlay de escaneo / UI de tracking -->
-    <div id="ui-custom-tracking-overlay" class="ui-custom-tracking-overlay">
-      <div class="ui-tracking-square">
-        <!-- Imagen de referencia -->
-        <img src="./assets/bienvenida.jpg" alt="Marker Target" class="scanning-image">
+    <!-- ==================== ESCENA AR CON ZAPPAR ==================== -->
+    <a-scene zappar color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights: true">
+      
+      <!-- ---------- CÁMARA ---------- -->
+      <a-camera id="camera" zappar-camera look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="near: 10; far: 10000; objects: .clickable"></a-camera>
 
-        <!-- Mensaje de escaneo -->
-        <div class="scanning-message">Scan QR code</div>
-
-        <!-- Elementos visuales para animación de escaneo -->
-        <div class="ui-scan-line"></div>
-        <span></span>
-      </div>
-    </div>
-
-    <!-- ------------------------------------------------------------------------------------- -->
-    <a-scene mindar-image="imageTargetSrc: ./targets/my-bcard.mind" uiScanning="#ui-custom-tracking-overlay;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights: true">
-      <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="near: 10; far: 10000; objects: .clickable"></a-camera>
-
+      <!-- ---------- ASSETS ---------- -->
       <a-assets>
-        <!-- Video y otros recursos -->
         <video id="miVideo" src="./assets/demo.mp4" preload="auto" loop="true" playsinline webkit-playsinline autoplay muted crossorigin="anonymous"></video>
-        <!-- Iconos de redes sociales -->
         <img id="iconLinkedin" src="./assets/icon-linkedin.png" />
         <img id="iconGlobe" src="./assets/portfolioIcon.jpg" />
         <img id="iconEmail" src="./assets/icon-mail.png" />
+        <a-asset-item id="avatarModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/examples/image-tracking/assets/card-example/softmind/scene.gltf"></a-asset-item>
       </a-assets>
 
-      <!-- Entidad con el target AR -->
-      <a-entity id="target" mindar-image-target="targetIndex: 0">
-        <!-- Video plano -->
+      <!-- ---------- OBJETO DE TRACKING DE ZAPPAR ---------- -->
+      <zappar-image-target src="./targets/my-bcard.zpt" id="target">
+
+        <!-- Video plano sobre la tarjeta -->
         <a-plane id="videoPlane"
-                src="#miVideo"
-                position="0 0.4 0"
-                height="0.55"
-                width="1"
-                material="shader: flat; transparent: true">
+                 src="#miVideo"
+                 position="0 0.4 0"
+                 height="0.55"
+                 width="1"
+                 material="shader: flat; transparent: true">
         </a-plane>
 
-        <!-- Botones centrados de redes sociales -->
+        <!-- Botones de redes sociales -->
         <a-image id="linkedinBtn" class="clickable" src="#iconLinkedin" position="-0.35 -0.5 0" height="0.15" width="0.15"></a-image>
         <a-image id="portfolioBtn" class="clickable" src="#iconGlobe" position="0 -0.5 0" height="0.15" width="0.15"></a-image>
         <a-image id="emailBtn" class="clickable" src="#iconEmail" position="0.35 -0.5 0" height="0.15" width="0.15"></a-image>
-      </a-entity>
+
+      </zappar-image-target>
+
     </a-scene>
 
-    <!-- ------------------------------------------------------------------------------------- -->
-
-    <!-- Pie de página fijo -->
+    <!-- ==================== PIE DE PÁGINA FIJO ==================== -->
     <footer class="page-footer">
       <a href="https://blog.realidad-aumentada.com.co" target="_blank" rel="noopener noreferrer">Ver Tutorial</a>
       <a href="https://www.youtube.com/carlosreinamcr" target="_blank" rel="noopener noreferrer">Canal de YouTube</a>
@@ -85,7 +75,7 @@
 
   </div> <!-- Cierre del #ar-wrapper -->
 
-  <!-- Llamada al archivo app.js al final del body para que cargue después de la estructura HTML -->
+  <!-- ==================== SCRIPT PRINCIPAL ==================== -->
   <script src="app.js"></script>
 </body>
 </html>
