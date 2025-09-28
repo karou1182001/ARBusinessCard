@@ -36,7 +36,7 @@
         <img src="./assets/bienvenida.jpg" alt="Marker Target" class="scanning-image">
 
         <!-- Mensaje de escaneo -->
-        <div class="scanning-message">Escanea tu marcador</div>
+        <div class="scanning-message">Scan QR code</div>
 
         <!-- Elementos visuales para animación de escaneo -->
         <div class="ui-scan-line"></div>
@@ -44,8 +44,8 @@
       </div>
     </div>
 
-    <!-- Insertar la escena AR desde un archivo externo -->
-    <a-scene mindar-image="imageTargetSrc: ./targets/my-bcard.mind" uiScanning="#ui-custom-tracking-overlay;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights: true">
+    <!-- ------------------------------------------------------------------------------------- -->
+    <a-scene mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="near: 10; far: 10000; objects: .clickable"></a-camera>
 
       <a-assets>
@@ -62,7 +62,7 @@
         <!-- Video plano -->
         <a-plane id="videoPlane"
                 src="#miVideo"
-                position="0 0 0"
+                position="0 1 0"
                 height="0.55"
                 width="1"
                 material="shader: flat; transparent: true">
@@ -75,7 +75,7 @@
       </a-entity>
     </a-scene>
 
-
+    <!-- ------------------------------------------------------------------------------------- -->
 
     <!-- Pie de página fijo -->
     <footer class="page-footer">
