@@ -17,7 +17,176 @@
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
   <!-- Hoja de estilos externa -->
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Estilos generales del body */
+    body {
+      margin: 0; /* Elimina los márgenes predeterminados del navegador. */
+      /* overflow: hidden; -> Comentado para que AdSense pueda añadir barras de scroll si es necesario. */
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Fuentes modernas y comunes en la mayoría de dispositivos. */
+      color: #ffffff; /* Color del texto por defecto: blanco. */
+      background-color: #000; /* Fondo negro para evitar destello blanco al cargar. */
+    }
+
+    /* Estilo para el contenedor que envuelve toda la experiencia AR */
+    #ar-wrapper {
+      position: relative; /* Base para posicionar elementos internos como los botones. */
+      width: 100%; /* Ocupa todo el ancho disponible. */
+      height: 100vh; /* Ocupa el 100% de la altura de la ventana del navegador. */
+      overflow: hidden; /* Evita que la escena 3D se desborde y cree barras de scroll no deseadas. */
+    }
+
+    /* Estilos para el encabezado y pie de página */
+    .page-header, .page-footer {
+      position: fixed; /* Los mantiene fijos en la pantalla aunque el contenido se mueva. */
+      left: 0; /* Los alinea al borde izquierdo. */
+      width: 100%; /* Hace que ocupen todo el ancho. */
+      text-align: center; /* Centra el texto en su interior. */
+      z-index: 11; /* Un número alto para asegurar que estén por encima de todo lo demás. */
+      background-color: rgba(0, 0, 0, 0.6); /* Fondo negro semitransparente. */
+      backdrop-filter: blur(8px); /* Desenfoque tipo "vidrio esmerilado". */
+      -webkit-backdrop-filter: blur(8px); /* Versión para navegadores como Safari. */
+      padding: 10px 0; /* Espaciado interno (10px arriba/abajo, 0px a los lados). */
+      box-sizing: border-box; /* Asegura que el padding no aumente el ancho total del elemento. */
+    }
+
+    /* Estilos específicos para el encabezado */
+    .page-header {
+      top: 0; /* Lo pega a la parte superior de la pantalla. */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Línea divisoria sutil en la parte inferior. */
+    }
+
+    /* Estilo del título principal (H1) */
+    .page-header h1 {
+      margin: 0; /* Elimina márgenes. */
+      font-size: clamp(1.2rem, 3vw, 1.5rem); /* Tamaño de fuente adaptable. */
+      font-weight: 600; /* Texto en seminegrita. */
+      color: #ffffff; /* Color de texto blanco. */
+      text-shadow: 0 0 8px rgba(0, 136, 255, 0.7); /* Sombra de texto azul. */
+    }
+
+    /* Estilos específicos para el pie de página */
+    .page-footer {
+      bottom: 0; /* Lo pega a la parte inferior de la pantalla. */
+      border-top: 1px solid rgba(255, 255, 255, 0.1); /* Línea divisoria sutil en la parte superior. */
+    }
+
+    /* Estilos para los enlaces (<a>) del pie de página */
+    .page-footer a {
+      color: #5bcaff; /* Color azul claro. */
+      text-decoration: none; /* Quita el subrayado. */
+      margin: 0 15px; /* Espaciado entre los enlaces. */
+      transition: color 0.3s ease; /* Transición suave del color al pasar el mouse. */
+    }
+
+    .page-footer a:hover {
+      color: #ffffff; /* Cambia el color a blanco al pasar el mouse. */
+      text-decoration: underline; /* Añade un subrayado al pasar el mouse. */
+    }
+
+    /* Estilo de los botones de control */
+    .controls-container {
+      position: absolute; /* Posicionado relativo a su padre (#ar-wrapper). */
+      top: 85px; /* Lo baja 85px desde la parte superior para no chocar con el header. */
+      left: 50%; /* Lo mueve al 50% del ancho de su padre. */
+      transform: translateX(-50%); /* Lo desplaza hacia la izquierda el 50% de su propio ancho para centrarlo. */
+      z-index: 10; /* Asegura que esté por encima de la escena AR pero debajo del header/footer. */
+      display: flex; /* Coloca los botones uno al lado del otro. */
+      gap: 10px; /* Crea un espacio de 10px entre los botones. */
+    }
+
+    /* Estilo de los botones de control */
+    .control-button {
+      padding: 10px 15px; /* Espaciado interno del botón. */
+      font-size: 16px; /* Tamaño del texto. */
+      background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente. */
+      border: none; /* Sin borde. */
+      border-radius: 8px; /* Bordes redondeados. */
+      cursor: pointer; /* Cambia el cursor a una mano para indicar que es clickeable. */
+      backdrop-filter: blur(5px); /* Efecto de desenfoque. */
+      transition: background-color 0.3s ease; /* Transición suave del color de fondo. */
+    }
+
+    .control-button:hover {
+      background-color: rgba(0, 0, 0, 0.8); /* Oscurece el botón al pasar el mouse. */
+    }
+
+    /* La pantalla de escaneo mientras se busca el marcador */
+    .ui-custom-tracking-overlay {
+      position: fixed; /* Fija la pantalla para que ocupe toda la ventana. */
+      top: 0; left: 0; width: 100%; height: 100%; /* Cubre toda la pantalla. */
+      pointer-events: none; /* Permite que los clics atraviesen esta capa. */
+      z-index: 9; /* Se posiciona justo debajo de los controles. */
+      opacity: 1; /* Totalmente visible por defecto. */
+      transition: opacity 0.5s ease; /* Desaparición suave. */
+    }
+
+    /* Clase para ocultar el overlay */
+    .ui-custom-tracking-overlay.hidden {
+      opacity: 0; /* Hace la capa invisible. */
+    }
+
+    /* El cuadro central donde se muestra la imagen de referencia */
+    .ui-tracking-square {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%); /* Lo centra perfectamente. */
+    }
+
+    /* Creación de las esquinas del cuadro usando pseudo-elementos */
+    .ui-tracking-square::before,
+    .ui-tracking-square::after,
+    .ui-tracking-square span::before,
+    .ui-tracking-square span::after 
+    {
+      content: ''; /* Necesario para que los pseudo-elementos se muestren. */
+      position: absolute;
+      width: var(--corner-size); /* Usa las variables definidas en :root. */
+      height: var(--corner-size);
+      border: var(--border-thickness) solid var(--primary-colorUI);
+      filter: drop-shadow(0 0 5px rgba(0, 136, 255, 0.7)); /* Efecto de brillo alrededor de las esquinas. */
+      animation: ui-corner-glow 3s infinite ease-in-out; /* Aplica la animación de brillo. */
+    }
+    /* Posiciona cada una de las 4 esquinas */
+    .ui-tracking-square::before { /* Esquina superior izquierda */
+      top: -2px; left: -2px;
+      border-right: none; border-bottom: none;
+    }
+    .ui-tracking-square::after { /* Esquina superior derecha */
+      top: -2px; right: -2px;
+      border-left: none; border-bottom: none;
+    }
+    .ui-tracking-square span::before { /* Esquina inferior izquierda */
+      bottom: -2px; left: -2px;
+      border-top: none; border-right: none;
+    }
+    .ui-tracking-square span::after { /* Esquina inferior derecha */
+      bottom: -2px; right: -2px;
+      border-top: none; border-left: none;
+    }
+
+    /* La línea animada que se mueve de arriba a abajo */
+    .ui-scan-line {
+      position: absolute;
+      width: 100%; /* La línea ocupa todo el ancho disponible. */
+      height: 2px; /* Alto de la línea. */
+      background-color: var(--primary-colorUI); /* Color de la línea. */
+      animation: ui-scan-animation 3s infinite ease-in-out; /* Aplica la animación de movimiento. */
+    }
+
+    /* Animación de la línea de escaneo */
+    @keyframes ui-scan-animation {
+      0%, 100% { top: 0; }
+      50% { top: 100%; }
+    }
+
+    /* Animación de brillo para las esquinas */
+    /* Animación de brillo para las esquinas */
+    @keyframes ui-corner-glow {
+      0% { filter: drop-shadow(0 0 5px rgba(0, 136, 255, 0.7)); } /* Primer estado con sombra suave */
+      100% { filter: drop-shadow(0 0 20px rgba(0, 136, 255, 1)); } /* Segundo estado con sombra más intensa */
+    }
+
+  </style>
 </head>
 
 <body>
