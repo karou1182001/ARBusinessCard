@@ -276,10 +276,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.07507399, y: 0.91495097, z: -0.34183446, w: 0.20094255}
   m_LocalPosition: {x: -0.0278, y: 0.028700002, z: 0.05920003}
-  m_LocalScale: {x: 0.020000001, y: 0.0009999999, z: 0.02}
+  m_LocalScale: {x: 0.020000003, y: 0.0009999998, z: 0.020000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1491006884}
+  m_Father: {fileID: 1953124808}
   m_LocalEulerAnglesHint: {x: 40.972, y: 155.227, z: 0}
 --- !u!136 &55739885
 CapsuleCollider:
@@ -450,8 +450,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
   mObserverBehaviour: {fileID: 255250344}
   mHiddenRoot: {fileID: 0}
-  mTargetName: MariaBusinessCardAR
-  mDatasetName: Vuforia/BusinessCardMarket.xml
+  mTargetName: image1
+  mDatasetName: Vuforia/arbusi.xml
   mCastedBehaviour: {fileID: 255250344}
   mMeshFilter: {fileID: 0}
   mMeshRenderer: {fileID: 0}
@@ -562,13 +562,13 @@ MonoBehaviour:
   PreviewVisible: 1
   RuntimeOcclusion: 0
   RuntimeCollider: 0
-  mTrackableName: MariaBusinessCardAR
+  mTrackableName: image1
   mInitializedInEditor: 1
-  mDataSetPath: Vuforia/BusinessCardMarket.xml
-  mAspectRatio: 0.57142353
+  mDataSetPath: Vuforia/arbusi.xml
+  mAspectRatio: 0.5713
   mImageTargetType: 0
-  mWidth: 0.085
-  mHeight: 0.048571
+  mWidth: 0.04
+  mHeight: 0.022852
   mRuntimeTexture: {fileID: 0}
   mMotionHint: 1
   mTrackingOptimization: 0
@@ -583,7 +583,7 @@ Transform:
   m_GameObject: {fileID: 255250341}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.2488, y: 0, z: 0}
+  m_LocalPosition: {x: -0.476, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -702,7 +702,7 @@ Transform:
   m_LocalScale: {x: 0.02, y: 0.0001, z: 0.020000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1491006884}
+  m_Father: {fileID: 1953124808}
   m_LocalEulerAnglesHint: {x: 31.183, y: 180, z: 0}
 --- !u!114 &557275445
 MonoBehaviour:
@@ -1133,103 +1133,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 809690995}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1491006878
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1491006884}
-  - component: {fileID: 1491006883}
-  - component: {fileID: 1491006882}
-  - component: {fileID: 1491006885}
-  m_Layer: 0
-  m_Name: ImageTarget
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1491006882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491006878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a917f0af64a6423093132dab321c15f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VuforiaScripts::DefaultTrackableEventHandler
---- !u!114 &1491006883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491006878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1631628248, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.UnityExtensions.dll::Vuforia.ImageTargetBehaviour
-  PreviewVisible: 1
-  RuntimeOcclusion: 0
-  RuntimeCollider: 0
-  mTrackableName: Drone
-  mInitializedInEditor: 1
-  mDataSetPath: Vuforia/VuforiaMars_Images.xml
-  mAspectRatio: 1.7272727
-  mImageTargetType: 0
-  mWidth: 0.06985
-  mHeight: 0.12065
-  mRuntimeTexture: {fileID: 0}
-  mMotionHint: 1
-  mTrackingOptimization: 0
-  mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 1491006885}
---- !u!4 &1491006884
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491006878}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 557275444}
-  - {fileID: 55739884}
-  - {fileID: 1666963265}
-  - {fileID: 1864912318}
-  - {fileID: 1563451750}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1491006885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491006878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 1491006883}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: Drone
-  mDatasetName: Vuforia/VuforiaMars_Images.xml
-  mCastedBehaviour: {fileID: 1491006883}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!1 &1563451749
 GameObject:
   m_ObjectHideFlags: 0
@@ -1260,10 +1163,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9632032, z: -0.26877442, w: 0}
   m_LocalPosition: {x: 0.02562, y: 0.0156, z: -0.0579}
-  m_LocalScale: {x: 0.02, y: 0.0001, z: 0.020000001}
+  m_LocalScale: {x: 0.02, y: 0.0001, z: 0.019999998}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1491006884}
+  m_Father: {fileID: 1953124808}
   m_LocalEulerAnglesHint: {x: 31.183, y: 180, z: 0}
 --- !u!114 &1563451751
 MonoBehaviour:
@@ -1515,10 +1418,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9632032, z: -0.26877442, w: 0}
   m_LocalPosition: {x: -0.0228, y: 0.0156, z: -0.0579}
-  m_LocalScale: {x: 0.02, y: 0.0001, z: 0.020000001}
+  m_LocalScale: {x: 0.02, y: 0.0001, z: 0.019999998}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1491006884}
+  m_Father: {fileID: 1953124808}
   m_LocalEulerAnglesHint: {x: 31.183, y: 180, z: 0}
 --- !u!114 &1666963266
 MonoBehaviour:
@@ -1641,10 +1544,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.14922538, y: -0.7756134, z: 0.56037605, w: 0.24926734}
   m_LocalPosition: {x: 0.05758, y: 0.04629, z: 0.0632}
-  m_LocalScale: {x: 0.0525776, y: 0.0019999999, z: 0.079885386}
+  m_LocalScale: {x: 0.052577604, y: 0.0019999999, z: 0.079885386}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1491006884}
+  m_Father: {fileID: 1953124808}
   m_LocalEulerAnglesHint: {x: 70.676, y: -138.462, z: 8.32}
 --- !u!65 &1864912319
 BoxCollider:
@@ -1751,13 +1654,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888912258}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.26402214, y: -0, z: -0, w: 0.96451664}
+  m_LocalRotation: {x: -0.0033198956, y: 0.99366766, z: -0.11035575, w: -0.020861872}
   m_LocalPosition: {x: 0, y: 0, z: 0.0461}
   m_LocalScale: {x: 0.008556001, y: 0.03, z: 0.00478584}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 255250345}
-  m_LocalEulerAnglesHint: {x: -30.618, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 12.677, y: 182.392, z: -0.117}
 --- !u!328 &1888912260
 VideoPlayer:
   m_ObjectHideFlags: 0
@@ -1872,6 +1775,135 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888912258}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1953124804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1953124808}
+  - component: {fileID: 1953124807}
+  - component: {fileID: 1953124806}
+  - component: {fileID: 1953124805}
+  m_Layer: 0
+  m_Name: BusinessCard2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1953124805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953124804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 1953124807}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: business_card
+  mDatasetName: Vuforia/arbusi.xml
+  mCastedBehaviour: {fileID: 1953124807}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
+--- !u!114 &1953124806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953124804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886328de6a5c14cbb85854fdf1a5085b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VuforiaScripts::DefaultObserverEventHandler
+  StatusFilter: 1
+  UsePoseSmoothing: 0
+  AnimationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 3.3333333
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.3
+      value: 1
+      inSlope: 3.3333333
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  OnTargetFound:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTargetLost:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1953124807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953124804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1631628248, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetBehaviour
+  PreviewVisible: 1
+  RuntimeOcclusion: 0
+  RuntimeCollider: 0
+  mTrackableName: business_card
+  mInitializedInEditor: 1
+  mDataSetPath: Vuforia/arbusi.xml
+  mAspectRatio: 0.58993334
+  mImageTargetType: 0
+  mWidth: 0.03
+  mHeight: 0.017698
+  mRuntimeTexture: {fileID: 0}
+  mMotionHint: 1
+  mTrackingOptimization: 0
+  mTrackingOptimizationNeedsUpgrade: 0
+  mPreview: {fileID: 1953124805}
+--- !u!4 &1953124808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953124804}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 55739884}
+  - {fileID: 557275444}
+  - {fileID: 1864912318}
+  - {fileID: 1666963265}
+  - {fileID: 1563451750}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2097087511
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,5 +2165,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 2097087517}
   - {fileID: 705507995}
-  - {fileID: 1491006884}
   - {fileID: 255250345}
+  - {fileID: 1953124808}
